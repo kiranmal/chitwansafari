@@ -20,8 +20,8 @@
   --whatsapp: #25d366;
   --radius: 3px;
   --shadow: 0 24px 60px rgba(15, 36, 29, 0.12);
-  --serif: "Cormorant Garamond", "Playfair Display", Georgia, "Times New Roman",
-    serif;
+  --serif:
+    "Cormorant Garamond", "Playfair Display", Georgia, "Times New Roman", serif;
   --sans: "Jost", "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -235,7 +235,9 @@ p {
   text-transform: uppercase;
   border-bottom: 1px solid var(--brass);
   padding-bottom: 6px;
-  transition: gap 0.25s, color 0.25s;
+  transition:
+    gap 0.25s,
+    color 0.25s;
 }
 .link-arrow:hover {
   gap: 16px;
@@ -258,7 +260,10 @@ p {
   text-transform: uppercase;
   line-height: 1.2;
   text-align: center;
-  transition: background 0.25s, color 0.25s, border-color 0.25s,
+  transition:
+    background 0.25s,
+    color 0.25s,
+    border-color 0.25s,
     transform 0.25s;
 }
 .btn:hover {
@@ -300,7 +305,9 @@ p {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 100;
-  transition: background 0.35s, box-shadow 0.35s;
+  transition:
+    background 0.35s,
+    box-shadow 0.35s;
 }
 
 .site-header::before {
@@ -320,7 +327,9 @@ p {
   border-bottom: 1px solid rgba(255, 255, 255, 0.16);
   max-height: 44px;
   overflow: hidden;
-  transition: max-height 0.35s, opacity 0.35s;
+  transition:
+    max-height 0.35s,
+    opacity 0.35s;
 }
 .topbar-inner {
   display: flex;
@@ -404,7 +413,10 @@ p {
   display: grid;
   place-items: center;
   margin-bottom: -34px;
-  transition: width 0.35s, height 0.35s, margin 0.35s;
+  transition:
+    width 0.35s,
+    height 0.35s,
+    margin 0.35s;
   overflow: hidden;
 }
 .brand-medal img {
@@ -447,7 +459,10 @@ p {
   width: 22px;
   height: 2px;
   background: #fff;
-  transition: transform 0.3s, opacity 0.3s, background 0.3s;
+  transition:
+    transform 0.3s,
+    opacity 0.3s,
+    background 0.3s;
 }
 .nav-open .burger span:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
@@ -557,7 +572,8 @@ p {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       ellipse at center,
       rgba(10, 25, 20, 0.28),
       rgba(10, 25, 20, 0.62) 80%
@@ -628,7 +644,9 @@ p {
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
   border-radius: 50%;
-  transition: background 0.25s, color 0.25s;
+  transition:
+    background 0.25s,
+    color 0.25s;
 }
 .hero-controls button:hover {
   background: #fff;
@@ -821,7 +839,9 @@ p {
   box-shadow: 0 12px 40px rgba(15, 36, 29, 0.07);
   border-radius: var(--radius);
   overflow: hidden;
-  transition: transform 0.4s, box-shadow 0.4s;
+  transition:
+    transform 0.4s,
+    box-shadow 0.4s;
 }
 .trio-card:hover {
   transform: translateY(-8px);
@@ -975,7 +995,9 @@ p {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.4s, box-shadow 0.4s;
+  transition:
+    transform 0.4s,
+    box-shadow 0.4s;
 }
 .package-card:hover {
   transform: translateY(-6px);
@@ -1103,10 +1125,7 @@ p {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    transparent 35%,
-    rgba(10, 25, 20, 0.92) 100%
-  );
+  background: linear-gradient(transparent 35%, rgba(10, 25, 20, 0.92) 100%);
 }
 .experience-index {
   position: absolute;
@@ -1140,7 +1159,9 @@ p {
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: max-height 0.5s, opacity 0.5s;
+  transition:
+    max-height 0.5s,
+    opacity 0.5s;
 }
 .experience-card:hover .experience-body p,
 .experience-card:focus-within .experience-body p {
@@ -1206,7 +1227,10 @@ p {
   text-transform: uppercase;
   padding: 12px 24px;
   border-radius: 40px;
-  transition: background 0.25s, color 0.25s, border-color 0.25s;
+  transition:
+    background 0.25s,
+    color 0.25s,
+    border-color 0.25s;
 }
 .gallery-tabs button:hover {
   border-color: var(--brass);
@@ -1259,7 +1283,9 @@ p {
   background: linear-gradient(transparent, rgba(10, 25, 20, 0.85));
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 0.4s, transform 0.4s;
+  transition:
+    opacity 0.4s,
+    transform 0.4s;
 }
 .gallery-item:hover .gallery-caption,
 .gallery-item:focus-visible .gallery-caption {
@@ -1505,7 +1531,9 @@ p {
   letter-spacing: 0;
   text-transform: none;
   font-weight: 400;
-  transition: border-color 0.25s, box-shadow 0.25s;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s;
 }
 .booking-form input:focus,
 .booking-form select:focus,
@@ -1663,7 +1691,9 @@ p {
   place-items: center;
   color: #fff;
   font-size: 1rem;
-  transition: background 0.25s, border-color 0.25s;
+  transition:
+    background 0.25s,
+    border-color 0.25s;
 }
 .footer-socials a:hover {
   background: var(--brass);
@@ -1680,7 +1710,9 @@ p {
   align-items: flex-start;
   gap: 10px;
   padding: 5px 0;
-  transition: color 0.25s, padding 0.25s;
+  transition:
+    color 0.25s,
+    padding 0.25s;
 }
 .footer-column a:hover {
   color: var(--brass-light);
@@ -1715,7 +1747,9 @@ p {
 .js .reveal {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.9s ease, transform 0.9s ease;
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s ease;
 }
 .js .reveal.visible {
   opacity: 1;
@@ -1761,9 +1795,64 @@ p {
     grid-template-columns: 1fr auto;
     min-height: 74px;
   }
-  .nav-left,
+  /* Keep the logo and brand visible on mobile */
+  .nav-left {
+    display: flex;
+    align-items: center;
+    justify-self: start;
+    gap: 10px;
+    min-width: 0;
+    text-decoration: none;
+  }
+
   .nav-right {
     display: none;
+  }
+
+  .nav-shell {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    min-height: 74px;
+  }
+
+  .brand-medal,
+  .site-header.scrolled .brand-medal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+
+  .brand-medal .logo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .brand-text strong {
+    font-size: clamp(0.85rem, 3.5vw, 1.15rem);
+    line-height: 1.2;
+  }
+
+  .brand-text small {
+    font-size: 0.75rem;
+  }
+
+  .burger {
+    display: grid;
+    justify-self: end;
   }
   .burger {
     display: grid;
@@ -1797,7 +1886,9 @@ p {
     padding: 20px 28px 36px;
     transform: translateX(100%);
     visibility: hidden;
-    transition: transform 0.4s, visibility 0.4s;
+    transition:
+      transform 0.4s,
+      visibility 0.4s;
     overflow-y: auto;
   }
   .mobile-menu.open {
