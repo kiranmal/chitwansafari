@@ -2085,3 +2085,9 @@ p {
   grid-row: auto;
   grid-column: auto;
 }
+
+/* Booking submit button while sending */
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

@@ -687,50 +687,161 @@
   updateEstimate();
   updateWhatsApp();
 
-  if (bookingForm) {
-    bookingForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      if (!bookingForm.reportValidity()) return;
+  // ---------------------------------------------------
+  // Booking submission via EmailJS (registered once)
+  // ---------------------------------------------------
+  const MSG_SUCCESS =
+    "Your booking enquiry has been sent successfully. The resort team will confirm availability.";
+  const MSG_FAIL =
+    "We couldn't send your enquiry. Please try again or contact us by phone or WhatsApp.";
 
-      if (checkOut.value <= checkIn.value) {
-        message.hidden = false;
-        message.textContent =
-          "Please select a check-out date after your check-in date.";
-        checkOut.focus();
+  function showMessage(text) {
+    if (!message) return;
+    message.hidden = false;
+    message.textContent = text;
+    message.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function emailJsReady() {
+    const cfg = window.EMAILJS_CONFIG || {};
+    return (
+      typeof window.emailjs !== "undefined" &&
+      cfg.SERVICE_ID &&
+      cfg.TEMPLATE_ID &&
+      cfg.PUBLIC_KEY &&
+      !/^YOUR_/.test(cfg.SERVICE_ID + cfg.TEMPLATE_ID + cfg.PUBLIC_KEY)
+    );
+  }
+
+  if (bookingForm && !bookingForm.dataset.emailBound) {
+    bookingForm.dataset.emailBound = "1";
+    bookingForm.setAttribute("novalidate", "novalidate");
+    let sending = false;
+    const submitBtn = $('button[type="submit"]', bookingForm);
+    const submitLabel = submitBtn ? submitBtn.textContent.trim() : "";
+
+    // Show the message right above the buttons so it is always visible
+    if (message && submitBtn) {
+      submitBtn.parentNode.insertBefore(message, submitBtn);
+      message.style.marginBottom = "16px";
+    }
+
+    function fail(text, field) {
+      showMessage(text);
+      if (field) field.focus({ preventScroll: true });
+    }
+
+    function runSubmit() {
+      if (sending) return;
+
+      const nameEl = $("#bName");
+      const phoneEl = $("#bPhone");
+      const emailEl = $("#bEmail");
+
+      if (!nameEl.value.trim()) return fail("Please enter your full name.", nameEl);
+      if (!phoneEl.value.trim())
+        return fail("Please enter your phone / WhatsApp number.", phoneEl);
+      if (!emailEl.value.trim() || !emailEl.checkValidity())
+        return fail("Please enter a valid email address.", emailEl);
+      if (!checkIn.value) return fail("Please select your check-in date.", checkIn);
+      if (!checkOut.value || checkOut.value <= checkIn.value)
+        return fail("Please select a check-out date after your check-in date.", checkOut);
+
+      const guests = Number(guestsInput.value || 0);
+      if (!guests || guests < 1)
+        return fail("Please enter the number of guests.", guestsInput);
+
+      if (!emailJsReady()) {
+        console.error("EmailJS SDK not loaded or not configured.");
+        showMessage(MSG_FAIL);
         return;
       }
 
-      const booking = {
-        name: $("#bName").value.trim(),
-        phone: $("#bPhone").value.trim(),
-        email: $("#bEmail").value.trim(),
+      updateEstimate();
+      const name = nameEl.value.trim();
+      const phone = phoneEl.value.trim();
+      const email = emailEl.value.trim();
+      const note = $("#bNote").value.trim() || "None";
+      const summary =
+        `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\n` +
+        `Stay type: ${typeSelect.value}\nCheck-in: ${checkIn.value}\n` +
+        `Check-out: ${checkOut.value}\nGuests: ${guests}\n` +
+        `Estimated cost: ${estimate.value}\nSpecial requests: ${note}`;
+
+      // Several alias names so the template works whichever variables it uses
+      const params = {
+        name,
+        from_name: name,
+        user_name: name,
+        phone,
+        user_phone: phone,
+        email,
+        from_email: email,
+        user_email: email,
+        reply_to: email,
         type: typeSelect.value,
-        checkIn: checkIn.value,
-        checkOut: checkOut.value,
-        guests: Number(guestsInput.value || 0),
-        note: $("#bNote").value.trim(),
-        submittedAt: new Date().toISOString(),
+        stay_type: typeSelect.value,
+        checkin: checkIn.value,
+        check_in: checkIn.value,
+        checkout: checkOut.value,
+        check_out: checkOut.value,
+        guests: String(guests),
+
+        estimated_cost: estimate.value,
+        note,
+        special_requests: note,
+        message: summary,
+        subject: `New booking enquiry from ${name}`,
+        to_email: "chitwansafariresort001@gmail.com",
       };
+      params.estimate = estimate.value;
 
-      // This front-end only stores the request in this browser.
-      // Connect it to your booking system / email service to receive it.
-      try {
-        const storageKey = "csr_booking_requests";
-        const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
-        saved.push(booking);
-        localStorage.setItem(storageKey, JSON.stringify(saved));
-      } catch (error) {
-        /* storage unavailable - message below still applies */
+      sending = true;
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending…";
       }
+      showMessage("Sending your enquiry…");
 
-      message.hidden = false;
-      message.textContent =
-        "Your booking request is ready, but it has not been sent to the " +
-        "resort yet. Tap “Book via WhatsApp” below to send it to our team " +
-        "with your details, or call or email the resort to confirm.";
-      updateWhatsApp();
-      message.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      const cfg = window.EMAILJS_CONFIG;
+      window.emailjs
+        .send(cfg.SERVICE_ID, cfg.TEMPLATE_ID, params, {
+          publicKey: cfg.PUBLIC_KEY,
+        })
+        .then((res) => {
+          if (res && res.status === 200) {
+            bookingForm.reset();
+            updateEstimate();
+            updateWhatsApp();
+            showMessage(MSG_SUCCESS);
+          } else {
+            showMessage(MSG_FAIL);
+          }
+        })
+        .catch((error) => {
+          console.error("EmailJS send failed:", error);
+          const detail = error && (error.text || error.message);
+          showMessage(detail ? `${MSG_FAIL} (${detail})` : MSG_FAIL);
+        })
+        .finally(() => {
+          sending = false;
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = submitLabel;
+          }
+        });
+    }
+
+    bookingForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      runSubmit();
     });
+    if (submitBtn) {
+      submitBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        runSubmit();
+      });
+    }
   }
 
   // Footer year
