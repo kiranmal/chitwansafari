@@ -23,17 +23,24 @@
     `images/web/${name}${size === "md" ? "-md" : ""}.jpg`;
 
   const IMAGES = {
-    exterior: "hero-exterior",
+    jeep: "Chitwan-Safari-Resort-Banner2",
+    tower: "tower",
+    exterior: "conferenceroom",
     room: "room",
     garden: "hero-garden",
-    sunset: "hero-sunset",
+    sunset: "Elephant-Experiences",
     river: "hero-river",
+    village: "Chitwan-Safari-Resort-Banner3",
     bird: "hero-birdwatch",
     sign: "sign",
     reception: "reception",
-    safari: "safari",
+    safari: "Chitwan-Safari-Resort-Banner1",
     dinner: "dinner",
     culture: "culture",
+    bird: "bird",
+    all1: "all-1",
+    all2: "all-2",
+    all3: "all-3",
   };
 
   function escapeHTML(value) {
@@ -64,7 +71,7 @@
       title: "Jeep & Jungle Safari",
       description:
         "Explore the forest with local naturalists and look for wildlife in its natural habitat.",
-      image: IMAGES.safari,
+      image: IMAGES.jeep,
     },
     {
       title: "Elephant Experiences",
@@ -88,13 +95,13 @@
       title: "Jungle Tower & Nature",
       description:
         "Experience the landscape from a different perspective and enjoy quiet moments in nature.",
-      image: IMAGES.garden,
+      image: IMAGES.tower,
     },
     {
       title: "Village & Local Life",
       description:
         "Explore the rural surroundings and discover the culture and everyday life of the region.",
-      image: IMAGES.river,
+      image: IMAGES.village,
     },
   ];
 
@@ -125,7 +132,7 @@
       title: "Weekend Gateway Pack",
       duration: "2 nights / 3 days · Cottage for a couple",
       price: 8100,
-      image: IMAGES.exterior,
+      image: IMAGES.tower,
       items: [
         "Breakfast, dinner and bonfire",
         "Free bus stand / airport pick-up and drop",
@@ -289,13 +296,25 @@
       image: IMAGES.garden,
       size: "wide",
     },
-    { title: "Reception & lounge", category: "stay", image: IMAGES.reception },
     {
-      title: "Welcome to Chitwan Safari Resort",
-      category: "stay",
-      image: IMAGES.sign,
+      title: "Birdlife",
+      category: "wild",
+      image: IMAGES.bird,
       size: "wide",
     },
+    {
+      title: "A peaceful stay",
+      category: "stay",
+      image: IMAGES.all1,
+      size: "wide",
+    },
+    {
+      title: "The resort experience",
+      category: "stay",
+      image: IMAGES.all2,
+      size: "wide",
+    },
+    { title: "Reception & lounge", category: "stay", image: IMAGES.reception },
   ];
 
   const galleryContainer = $("#gal");
@@ -335,7 +354,10 @@
     menu.classList.toggle("open", open);
     document.body.classList.toggle("nav-open", open);
     burger.setAttribute("aria-expanded", String(open));
-    burger.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+    burger.setAttribute(
+      "aria-label",
+      open ? "Close navigation" : "Open navigation",
+    );
   }
 
   if (burger && menu) {
@@ -407,8 +429,10 @@
     sliderTimer = setInterval(() => showSlide(currentSlide + 1), slideDuration);
   }
 
-  if (previous) previous.addEventListener("click", () => showSlide(currentSlide - 1, true));
-  if (next) next.addEventListener("click", () => showSlide(currentSlide + 1, true));
+  if (previous)
+    previous.addEventListener("click", () => showSlide(currentSlide - 1, true));
+  if (next)
+    next.addEventListener("click", () => showSlide(currentSlide + 1, true));
 
   showSlide(0);
   startSlider();
@@ -479,10 +503,23 @@
         const category = button.dataset.category;
         galleryElement.classList.toggle("filtered", category !== "all");
 
+        const visible = [];
         $$(".gallery-item", galleryElement).forEach((item) => {
           const show = category === "all" || item.dataset.category === category;
           item.classList.toggle("is-hidden", !show);
+          item.classList.remove("fit-wide");
+          if (show) visible.push(item);
         });
+
+        // Make the filtered images fill every row with no gaps (4-column grid)
+        const widePositions = { 2: [0, 1], 5: [0, 4], 6: [0, 1] }[
+          visible.length
+        ];
+        if (category !== "all" && widePositions) {
+          widePositions.forEach((index) =>
+            visible[index].classList.add("fit-wide"),
+          );
+        }
       });
     });
   }
@@ -738,14 +775,19 @@
       const phoneEl = $("#bPhone");
       const emailEl = $("#bEmail");
 
-      if (!nameEl.value.trim()) return fail("Please enter your full name.", nameEl);
+      if (!nameEl.value.trim())
+        return fail("Please enter your full name.", nameEl);
       if (!phoneEl.value.trim())
         return fail("Please enter your phone / WhatsApp number.", phoneEl);
       if (!emailEl.value.trim() || !emailEl.checkValidity())
         return fail("Please enter a valid email address.", emailEl);
-      if (!checkIn.value) return fail("Please select your check-in date.", checkIn);
+      if (!checkIn.value)
+        return fail("Please select your check-in date.", checkIn);
       if (!checkOut.value || checkOut.value <= checkIn.value)
-        return fail("Please select a check-out date after your check-in date.", checkOut);
+        return fail(
+          "Please select a check-out date after your check-in date.",
+          checkOut,
+        );
 
       const guests = Number(guestsInput.value || 0);
       if (!guests || guests < 1)
