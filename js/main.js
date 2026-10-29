@@ -450,11 +450,7 @@
     { title: "Dinner with friends", category: "stay", file: "culter.jpg" },
     { title: "Group dining", category: "stay", file: "culter13.jpg" },
     // Wildlife
-    {
-      title: "Rhinos at the resort gate",
-      category: "wild",
-      file: "wild6.jpg",
-    },
+
     {
       title: "Rhinos grazing in the grassland",
       category: "wild",
