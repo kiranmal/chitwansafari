@@ -22,6 +22,18 @@
   const img = (name, size = "md") =>
     `images/web/${name}${size === "md" ? "-md" : ""}.jpg`;
 
+  // Extra photos live in images/images/ and use their full file name
+  // (with extension), so any .jpg / .jpeg / .png file works here.
+  const pic = (file) => encodeURI(`images/images/${file}`);
+
+  // Google rating page for the resort. Fill in score / reviews below
+  // (e.g. score: "4.6", reviews: "120") to show the number on the badge.
+  const GOOGLE_RATING = {
+    url: "https://www.google.com/travel/search?ts=CAESCgoCCAMKAggDEAAaHBIaEhQKBwjqDxALGA8SBwjqDxALGBAYATICEAAqBwoFOgNJTlI&qs=CAEyFENnc0l6cXVzNzdQSTctYUVBUkFCOApCCRGsO2_BYU_C0kIJERWU2pZoemXaQgkRhgjUkhzy9yFaQjJAqgE9EAEyHhABIhpafWw9n0IIGhd0SejwqV9Ao1dHQ-aUpTwo-jIZEAIiFWNoaXR3YW4gc2FmYXJpIHJlc29ydA&utm_campaign=sharing&utm_medium=link_btn&utm_source=htls",
+    score: "",
+    reviews: "",
+  };
+
   const IMAGES = {
     jeep: "Chitwan-Safari-Resort-Banner2",
     tower: "tower",
@@ -317,6 +329,61 @@
     { title: "Reception & lounge", category: "stay", image: IMAGES.reception },
   ];
 
+  // Extra photos from images/images/ — grouped by theme.
+  // category: wild | stay | culture | grounds
+  const extraGallery = [
+    // Resort & grounds
+    { title: "Welcome at the resort gate", category: "grounds", file: "culter1.jpg" },
+    { title: "The resort signboard", category: "grounds", file: "culter20.jpg" },
+    { title: "Signboard among the trees", category: "grounds", file: "culter29.jpg" },
+    { title: "Garden pathway", category: "grounds", file: "culter14.jpg" },
+    { title: "Courtyard greenery", category: "grounds", file: "culter15.jpg" },
+    { title: "Cottage and garden", category: "grounds", file: "culter16.jpg" },
+    { title: "Verandah and courtyard", category: "grounds", file: "culter17.jpg" },
+    { title: "Thatched gazebo in the garden", category: "grounds", file: "culter18.jpg" },
+    { title: "Garden gazebo", category: "grounds", file: "culter21.jpg" },
+    { title: "Walkway along the cottages", category: "grounds", file: "culter22.jpg" },
+    { title: "The main lodge", category: "grounds", file: "culter23.jpg" },
+    { title: "Shaded garden corner", category: "grounds", file: "culter24.jpg" },
+    { title: "Courtyard seating", category: "grounds", file: "culter26.jpg" },
+    { title: "The garden from above", category: "grounds", file: "culter28.jpg" },
+    { title: "Thatched sit-out", category: "grounds", file: "culter30.jpg" },
+    { title: "The lodge at night", category: "grounds", file: "culter32.jpg" },
+    { title: "Lodge through the trees", category: "grounds", file: "culter34.jpg" },
+    { title: "Resort office courtyard", category: "grounds", file: "culter35.jpg" },
+    { title: "Resort grounds from above", category: "grounds", file: "culter36.jpg" },
+    { title: "Lodge and verandah", category: "grounds", file: "culter7.jpg" },
+    { title: "Lodge in the greenery", category: "grounds", file: "culter8.jpg" },
+    // Stay & dine
+    { title: "Spacious twin room", category: "stay", file: "stay1.jpg" },
+    { title: "A cosy room", category: "stay", file: "stay2.jpg" },
+    { title: "Warm, comfortable interiors", category: "stay", file: "stay3.jpg" },
+    { title: "Comfortable double bed", category: "stay", file: "stay4.jpg" },
+    { title: "Garden cottage", category: "stay", file: "culter2.jpg" },
+    { title: "Cottage exterior", category: "stay", file: "culter4.jpg" },
+    { title: "Cottage porch", category: "stay", file: "culter5.jpg" },
+    { title: "Cottage row", category: "stay", file: "culter9.jpg" },
+    { title: "Cottage verandah", category: "stay", file: "culter12.jpg" },
+    { title: "Clean attached bathroom", category: "stay", file: "culter31.jpg" },
+    { title: "Meeting & workshop space", category: "stay", file: "culter11.jpg" },
+    { title: "Traditional Nepali thali", category: "stay", file: "culter6.jpg" },
+    { title: "Dinner with friends", category: "stay", file: "culter.jpg" },
+    { title: "Group dining", category: "stay", file: "culter13.jpg" },
+    // Wildlife
+    { title: "Rhino at the resort gate", category: "wild", file: "rhino-at-gate.jpg" },
+    { title: "Rhinos grazing in the grassland", category: "wild", file: "wild2.jpg" },
+    { title: "Stag beneath the full moon", category: "wild", file: "wild3.jpg" },
+    { title: "Jungle watchtower", category: "wild", file: "culter33.jpg" },
+    // Culture & adventure
+    { title: "Canoe ride on the river", category: "culture", file: "wild.jpg" },
+    { title: "Paddling the river", category: "culture", file: "culter27.jpg" },
+    { title: "Elephant safari ride", category: "culture", file: "culter25.jpg" },
+    { title: "Meeting the elephants", category: "culture", file: "wild5.jpg" },
+  ];
+  extraGallery.forEach((item) => {
+    gallery.push({ title: item.title, category: item.category, src: pic(item.file) });
+  });
+
   const galleryContainer = $("#gal");
   if (galleryContainer) {
     galleryContainer.innerHTML = gallery
@@ -325,10 +392,10 @@
         <figure class="gallery-item ${item.size || ""}"
           data-category="${item.category}"
           data-caption="${escapeHTML(item.title)}"
-          data-full="${img(item.image, "full")}"
+          data-full="${item.src || img(item.image, "full")}"
           tabindex="0" role="button"
           aria-label="Open image: ${escapeHTML(item.title)}">
-          <img src="${img(item.image)}" alt="${escapeHTML(item.title)}" loading="lazy">
+          <img src="${item.src || img(item.image)}" alt="${escapeHTML(item.title)}" loading="lazy" decoding="async">
           <figcaption class="gallery-caption">${escapeHTML(item.title)}</figcaption>
         </figure>`,
       )
@@ -494,35 +561,76 @@
   const tabs = $("#tabs");
   const galleryElement = $("#gal");
 
+  // The gallery keeps its original height: only the first photos of each
+  // view are shown, and "More photos" reveals the rest.
+  const galleryMore = $("#galMore");
+  const GALLERY_LIMIT = { all: 13, other: 8 };
+  let galleryCategory = "all";
+  let galleryExpanded = false;
+
+  function updateGallery() {
+    if (!galleryElement) return;
+    const limit =
+      galleryCategory === "all" ? GALLERY_LIMIT.all : GALLERY_LIMIT.other;
+    galleryElement.classList.toggle("filtered", galleryCategory !== "all");
+
+    let shown = 0;
+    let total = 0;
+    $$(".gallery-item", galleryElement).forEach((item) => {
+      const inCategory =
+        galleryCategory === "all" || item.dataset.category === galleryCategory;
+      let show = inCategory;
+      if (inCategory) {
+        total += 1;
+        show = galleryExpanded || total <= limit;
+      }
+      item.classList.toggle("is-hidden", !show);
+      if (show) shown += 1;
+    });
+
+    if (galleryMore) {
+      galleryMore.hidden = total <= limit;
+      galleryMore.textContent = galleryExpanded
+        ? "Show fewer photos"
+        : `More photos (${total - shown})`;
+      galleryMore.setAttribute("aria-expanded", String(galleryExpanded));
+    }
+  }
+
   if (tabs && galleryElement) {
     $$("#tabs button").forEach((button) => {
       button.addEventListener("click", () => {
         $$("#tabs button").forEach((item) => item.classList.remove("active"));
         button.classList.add("active");
-
-        const category = button.dataset.category;
-        galleryElement.classList.toggle("filtered", category !== "all");
-
-        const visible = [];
-        $$(".gallery-item", galleryElement).forEach((item) => {
-          const show = category === "all" || item.dataset.category === category;
-          item.classList.toggle("is-hidden", !show);
-          item.classList.remove("fit-wide");
-          if (show) visible.push(item);
-        });
-
-        // Make the filtered images fill every row with no gaps (4-column grid)
-        const widePositions = { 2: [0, 1], 5: [0, 4], 6: [0, 1] }[
-          visible.length
-        ];
-        if (category !== "all" && widePositions) {
-          widePositions.forEach((index) =>
-            visible[index].classList.add("fit-wide"),
-          );
-        }
+        galleryCategory = button.dataset.category;
+        galleryExpanded = false;
+        updateGallery();
       });
     });
+    if (galleryMore) {
+      galleryMore.addEventListener("click", () => {
+        galleryExpanded = !galleryExpanded;
+        updateGallery();
+        if (!galleryExpanded) {
+          galleryElement.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    }
+    updateGallery();
   }
+
+  // Google rating badge
+  const ratingLink = $("#googleRating");
+  if (ratingLink) {
+    ratingLink.href = GOOGLE_RATING.url;
+    const ratingText = $("#googleRatingText");
+    if (ratingText && GOOGLE_RATING.score) {
+      ratingText.textContent = `${GOOGLE_RATING.score} on Google${
+        GOOGLE_RATING.reviews ? ` · ${GOOGLE_RATING.reviews} reviews` : ""
+      }`;
+    }
+  }
+  $$("a[data-google-rating]").forEach((a) => (a.href = GOOGLE_RATING.url));
 
   const lightbox = $("#lb");
   const lightboxImage = $("#lbi");

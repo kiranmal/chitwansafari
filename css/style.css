@@ -2091,3 +2091,40 @@ p {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* Gallery "More photos" button + Google rating badge */
+.gallery-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+}
+.gallery-more[hidden],
+.gallery-more button[hidden] {
+  display: none;
+}
+.rating-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+  padding: 10px 22px;
+  border: 1px solid var(--line);
+  border-radius: 40px;
+  background: #fff;
+  color: var(--forest);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition:
+    border-color 0.25s,
+    transform 0.25s;
+}
+.rating-badge:hover {
+  border-color: var(--brass);
+  transform: translateY(-2px);
+}
+.rating-stars {
+  color: var(--brass);
+  letter-spacing: 2px;
+  font-size: 0.95rem;
+}

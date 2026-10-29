@@ -554,6 +554,17 @@
               Explore a visual collection of nature, accommodation, cultural
               experiences and adventure.
             </p>
+            <a
+              class="rating-badge"
+              id="googleRating"
+              href="#"
+              target="_blank"
+              rel="noopener"
+              aria-label="See Chitwan Safari Resort rating and reviews on Google"
+            >
+              <span class="rating-stars" aria-hidden="true">★★★★★</span>
+              <span id="googleRatingText">See our rating on Google</span>
+            </a>
           </div>
 
           <div class="gallery-tabs reveal" id="tabs">
@@ -562,12 +573,26 @@
             </button>
             <button type="button" data-category="wild">Wildlife</button>
             <button type="button" data-category="stay">Stay &amp; dine</button>
+            <button type="button" data-category="grounds">
+              Resort &amp; grounds
+            </button>
             <button type="button" data-category="culture">
               Culture &amp; adventure
             </button>
           </div>
 
           <div class="gallery-grid" id="gal"></div>
+          <div class="gallery-more">
+            <button
+              class="btn btn-forest"
+              id="galMore"
+              type="button"
+              aria-expanded="false"
+              aria-controls="gal"
+            >
+              More photos
+            </button>
+          </div>
         </div>
       </section>
 
@@ -871,10 +896,13 @@
 
           <div class="map-card reveal">
             <iframe
-              title="Map showing Chitwan Safari Resort in Sauraha"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3361.5773649686043!2d84.49448007524889!3d27.576051676258082!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3994eee14bcedf3b%3A0x84cdbe433deb15ce!2sChitwan%20Safari%20Resort!5e1!3m2!1sen!2sin!4v1793267120335!5m2!1sen!2sin"
+              width="600"
+              height="450"
+              style="border: 0"
+              allowfullscreen=""
               loading="lazy"
-              src="https://www.google.com/maps?q=Chitwan+Safari+Resort+Sauraha&output=embed"
-              referrerpolicy="no-referrer-when-downgrade"
+              referrerpolicy="strict-origin-when-cross-origin"
             ></iframe>
           </div>
         </div>
@@ -948,6 +976,9 @@
           <a href="#experiences">Experiences</a>
           <a href="#stay">Rooms &amp; packages</a>
           <a href="#moments">Photo gallery</a>
+          <a href="#" data-google-rating target="_blank" rel="noopener"
+            >Google rating &amp; reviews</a
+          >
           <a href="#commitment">Our commitment</a>
         </div>
 
