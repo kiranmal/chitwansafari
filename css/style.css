@@ -1304,13 +1304,20 @@ p {
   justify-content: center;
   padding: 40px 20px;
 }
-.lightbox img {
-  max-width: min(1100px, 100%);
-  max-height: 78vh;
+.lightbox img,
+.lightbox video {
+  width: min(1200px, 94vw);
+  height: calc(100vh - 150px);
+  height: calc(100dvh - 150px);
   object-fit: contain;
   border-radius: var(--radius);
+  background: transparent;
+}
+.lightbox video {
+  background: #000;
 }
 .lightbox p {
+  text-align: center;
   color: #fff;
   font-family: var(--serif);
   font-size: 1.4rem;
@@ -2127,4 +2134,54 @@ p {
   color: var(--brass);
   letter-spacing: 2px;
   font-size: 0.95rem;
+}
+
+
+/* Gallery video tile: play button over the poster */
+.gallery-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  border-radius: 50%;
+  background: rgba(181, 139, 76, 0.92);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+  transition: transform 0.3s;
+}
+.gallery-play::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -11px 0 0 -7px;
+  border-style: solid;
+  border-width: 11px 0 11px 19px;
+  border-color: transparent transparent transparent #fff;
+}
+.gallery-item:hover .gallery-play {
+  transform: scale(1.12);
+}
+.gallery-item[data-video] .gallery-caption {
+  opacity: 1;
+  transform: none;
+}
+/* Video tile is portrait: show it taller in the filtered view */
+.gallery-grid.filtered .gallery-item[data-video] {
+  grid-row: span 2;
+}
+
+/* PDF link in the main navigation */
+.nav-right .nav-pdf::before {
+  content: "";
+  display: inline-block;
+  width: 0.95em;
+  height: 1.15em;
+  margin-right: 8px;
+  vertical-align: -0.2em;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 2h8l6 6v14H6zM14 2v6h6' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 2h8l6 6v14H6zM14 2v6h6' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
 }

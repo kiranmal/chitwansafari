@@ -19,12 +19,29 @@
 
   // Web-optimised copies of the resort photos live in images/web/
   // (-md = 900px thumbnail, plain = 1600px full size).
+  // Only these names have a separate full-size file. Everything else falls
+  // back to its -md copy, so the lightbox never points at a missing file.
+  const FULL_AVAILABLE = ["Chitwan -Safari-Resort-Banner1"];
   const img = (name, size = "md") =>
-    `images/web/${name}${size === "md" ? "-md" : ""}.jpg`;
+    size === "full" && FULL_AVAILABLE.includes(name)
+      ? `images/web/${name}.jpg`
+      : `images/web/${name}-md.jpg`;
 
   // Extra photos live in images/images/ and use their full file name
   // (with extension), so any .jpg / .jpeg / .png file works here.
-  const pic = (file) => encodeURI(`images/images/${file}`);
+  // Small originals (141-324 px) have enlarged, sharpened copies in
+  // images/hd/ so they look clean in the grid and when opened.
+  const BIG_ORIGINALS = [
+    "culter1.jpg",
+    "culter35.jpg",
+    "culter36.jpg",
+    "wild5.jpg",
+    "rhino-at-gate.jpg",
+  ];
+  const pic = (file) =>
+    encodeURI(
+      `${BIG_ORIGINALS.includes(file) ? "images/images" : "images/hd"}/${file}`,
+    );
 
   // Google rating page for the resort. Fill in score / reviews below
   // (e.g. score: "4.6", reviews: "120") to show the number on the badge.
@@ -52,7 +69,6 @@
     bird: "bird",
     all1: "all-1",
     all2: "all-2",
-    all3: "all-3",
   };
 
   function escapeHTML(value) {
@@ -333,55 +349,156 @@
   // category: wild | stay | culture | grounds
   const extraGallery = [
     // Resort & grounds
-    { title: "Welcome at the resort gate", category: "grounds", file: "culter1.jpg" },
-    { title: "The resort signboard", category: "grounds", file: "culter20.jpg" },
-    { title: "Signboard among the trees", category: "grounds", file: "culter29.jpg" },
+    {
+      title: "Welcome at the resort gate",
+      category: "grounds",
+      file: "culter1.jpg",
+    },
+    {
+      title: "The resort signboard",
+      category: "grounds",
+      file: "culter20.jpg",
+    },
+    {
+      title: "Signboard among the trees",
+      category: "grounds",
+      file: "culter29.jpg",
+    },
     { title: "Garden pathway", category: "grounds", file: "culter14.jpg" },
     { title: "Courtyard greenery", category: "grounds", file: "culter15.jpg" },
     { title: "Cottage and garden", category: "grounds", file: "culter16.jpg" },
-    { title: "Verandah and courtyard", category: "grounds", file: "culter17.jpg" },
-    { title: "Thatched gazebo in the garden", category: "grounds", file: "culter18.jpg" },
+    {
+      title: "Verandah and courtyard",
+      category: "grounds",
+      file: "culter17.jpg",
+    },
+    {
+      title: "Thatched gazebo in the garden",
+      category: "grounds",
+      file: "culter18.jpg",
+    },
     { title: "Garden gazebo", category: "grounds", file: "culter21.jpg" },
-    { title: "Walkway along the cottages", category: "grounds", file: "culter22.jpg" },
+    {
+      title: "Walkway along the cottages",
+      category: "grounds",
+      file: "culter22.jpg",
+    },
     { title: "The main lodge", category: "grounds", file: "culter23.jpg" },
-    { title: "Shaded garden corner", category: "grounds", file: "culter24.jpg" },
+    {
+      title: "Shaded garden corner",
+      category: "grounds",
+      file: "culter24.jpg",
+    },
     { title: "Courtyard seating", category: "grounds", file: "culter26.jpg" },
-    { title: "The garden from above", category: "grounds", file: "culter28.jpg" },
+    {
+      title: "The garden from above",
+      category: "grounds",
+      file: "culter28.jpg",
+    },
     { title: "Thatched sit-out", category: "grounds", file: "culter30.jpg" },
     { title: "The lodge at night", category: "grounds", file: "culter32.jpg" },
-    { title: "Lodge through the trees", category: "grounds", file: "culter34.jpg" },
-    { title: "Resort office courtyard", category: "grounds", file: "culter35.jpg" },
-    { title: "Resort grounds from above", category: "grounds", file: "culter36.jpg" },
+    {
+      title: "Lodge through the trees",
+      category: "grounds",
+      file: "culter34.jpg",
+    },
+    {
+      title: "Resort office courtyard",
+      category: "grounds",
+      file: "culter35.jpg",
+    },
+    {
+      title: "Resort grounds from above",
+      category: "grounds",
+      file: "culter36.jpg",
+    },
     { title: "Lodge and verandah", category: "grounds", file: "culter7.jpg" },
-    { title: "Lodge in the greenery", category: "grounds", file: "culter8.jpg" },
+    {
+      title: "Lodge in the greenery",
+      category: "grounds",
+      file: "culter8.jpg",
+    },
     // Stay & dine
     { title: "Spacious twin room", category: "stay", file: "stay1.jpg" },
     { title: "A cosy room", category: "stay", file: "stay2.jpg" },
-    { title: "Warm, comfortable interiors", category: "stay", file: "stay3.jpg" },
+    {
+      title: "Warm, comfortable interiors",
+      category: "stay",
+      file: "stay3.jpg",
+    },
     { title: "Comfortable double bed", category: "stay", file: "stay4.jpg" },
     { title: "Garden cottage", category: "stay", file: "culter2.jpg" },
     { title: "Cottage exterior", category: "stay", file: "culter4.jpg" },
     { title: "Cottage porch", category: "stay", file: "culter5.jpg" },
     { title: "Cottage row", category: "stay", file: "culter9.jpg" },
     { title: "Cottage verandah", category: "stay", file: "culter12.jpg" },
-    { title: "Clean attached bathroom", category: "stay", file: "culter31.jpg" },
-    { title: "Meeting & workshop space", category: "stay", file: "culter11.jpg" },
-    { title: "Traditional Nepali thali", category: "stay", file: "culter6.jpg" },
+    {
+      title: "Clean attached bathroom",
+      category: "stay",
+      file: "culter31.jpg",
+    },
+    {
+      title: "Meeting & workshop space",
+      category: "stay",
+      file: "culter11.jpg",
+    },
+    {
+      title: "Traditional Nepali thali",
+      category: "stay",
+      file: "culter6.jpg",
+    },
     { title: "Dinner with friends", category: "stay", file: "culter.jpg" },
     { title: "Group dining", category: "stay", file: "culter13.jpg" },
     // Wildlife
-    { title: "Rhino at the resort gate", category: "wild", file: "rhino-at-gate.jpg" },
-    { title: "Rhinos grazing in the grassland", category: "wild", file: "wild2.jpg" },
-    { title: "Stag beneath the full moon", category: "wild", file: "wild3.jpg" },
+    {
+      title: "Rhinos at the resort gate",
+      category: "wild",
+      file: "wild6.jpg",
+    },
+    {
+      title: "Rhinos grazing in the grassland",
+      category: "wild",
+      file: "wild2.jpg",
+    },
+    {
+      title: "Stag beneath the full moon",
+      category: "wild",
+      file: "wild3.jpg",
+    },
     { title: "Jungle watchtower", category: "wild", file: "culter33.jpg" },
     // Culture & adventure
     { title: "Canoe ride on the river", category: "culture", file: "wild.jpg" },
     { title: "Paddling the river", category: "culture", file: "culter27.jpg" },
-    { title: "Elephant safari ride", category: "culture", file: "culter25.jpg" },
+    {
+      title: "Elephant safari ride",
+      category: "culture",
+      file: "culter25.jpg",
+    },
     { title: "Meeting the elephants", category: "culture", file: "wild5.jpg" },
   ];
   extraGallery.forEach((item) => {
-    gallery.push({ title: item.title, category: item.category, src: pic(item.file) });
+    gallery.push({
+      title: item.title,
+      category: item.category,
+      src: pic(item.file),
+    });
+  });
+
+  // Videos — shown in the "Video" tab. Add more entries here.
+  const videos = [
+    {
+      title: "Chitwan Safari Resort — video tour",
+      poster: "video/resort-video-poster.jpg",
+      src: "video/resort-video.mp4",
+    },
+  ];
+  videos.forEach((item) => {
+    gallery.push({
+      title: item.title,
+      category: "video",
+      src: item.poster,
+      video: item.src,
+    });
   });
 
   const galleryContainer = $("#gal");
@@ -393,9 +510,11 @@
           data-category="${item.category}"
           data-caption="${escapeHTML(item.title)}"
           data-full="${item.src || img(item.image, "full")}"
+          ${item.video ? `data-video="${item.video}"` : ""}
           tabindex="0" role="button"
-          aria-label="Open image: ${escapeHTML(item.title)}">
-          <img src="${item.src || img(item.image)}" alt="${escapeHTML(item.title)}" loading="lazy" decoding="async">
+          aria-label="${item.video ? "Play video" : "Open image"}: ${escapeHTML(item.title)}">
+          <img src="${item.src || img(item.image)}" data-fallback="${img(item.image || "")}" alt="${escapeHTML(item.title)}" loading="lazy" decoding="async">
+          ${item.video ? `<span class="gallery-play" aria-hidden="true"></span>` : ""}
           <figcaption class="gallery-caption">${escapeHTML(item.title)}</figcaption>
         </figure>`,
       )
@@ -578,7 +697,9 @@
     let total = 0;
     $$(".gallery-item", galleryElement).forEach((item) => {
       const inCategory =
-        galleryCategory === "all" || item.dataset.category === galleryCategory;
+        galleryCategory === "all"
+          ? item.dataset.category !== "video"
+          : item.dataset.category === galleryCategory;
       let show = inCategory;
       if (inCategory) {
         total += 1;
@@ -634,25 +755,72 @@
 
   const lightbox = $("#lb");
   const lightboxImage = $("#lbi");
+  const lightboxVideo = $("#lbv");
   const lightboxCaption = $("#lbc");
   const lightboxClose = $("#lbx");
+  let lastFocused = null;
 
   function openLightbox(figure) {
     if (!lightbox || !lightboxImage) return;
     const thumb = $("img", figure);
     if (!thumb) return;
-    lightboxImage.src = figure.dataset.full || thumb.src;
-    lightboxImage.alt = thumb.alt;
-    lightboxCaption.textContent = figure.dataset.caption || thumb.alt;
+    lastFocused = document.activeElement;
+
+    const caption = figure.dataset.caption || thumb.alt;
+    lightboxCaption.textContent = caption;
+
+    if (figure.dataset.video && lightboxVideo) {
+      lightboxImage.hidden = true;
+      lightboxImage.removeAttribute("src");
+      lightboxVideo.hidden = false;
+      lightboxVideo.poster = thumb.getAttribute("src");
+      lightboxVideo.src = figure.dataset.video;
+      lightboxVideo.play().catch(() => {});
+    } else {
+      if (lightboxVideo) {
+        lightboxVideo.hidden = true;
+        lightboxVideo.pause();
+        lightboxVideo.removeAttribute("src");
+      }
+      lightboxImage.hidden = false;
+      // If the full-size file is missing, fall back to the grid image.
+      lightboxImage.onerror = () => {
+        lightboxImage.onerror = null;
+        lightboxImage.src = thumb.currentSrc || thumb.src;
+      };
+      lightboxImage.src = figure.dataset.full || thumb.src;
+      lightboxImage.alt = thumb.alt;
+    }
+
     lightbox.hidden = false;
+    document.body.style.overflow = "hidden";
     if (lightboxClose) lightboxClose.focus();
   }
 
   function closeLightbox() {
-    if (!lightbox) return;
+    if (!lightbox || lightbox.hidden) return;
     lightbox.hidden = true;
-    if (lightboxImage) lightboxImage.removeAttribute("src");
+    document.body.style.overflow = "";
+    if (lightboxImage) {
+      lightboxImage.onerror = null;
+      lightboxImage.removeAttribute("src");
+    }
+    if (lightboxVideo) {
+      lightboxVideo.pause();
+      lightboxVideo.removeAttribute("src");
+      lightboxVideo.load();
+    }
+    if (lastFocused && lastFocused.focus)
+      lastFocused.focus({ preventScroll: true });
   }
+
+  // Grid thumbnails: if one is missing, use its -md copy instead.
+  $$(".gallery-item img").forEach((thumb) => {
+    thumb.addEventListener("error", () => {
+      const fallback = thumb.dataset.fallback;
+      if (fallback && !thumb.src.endsWith(fallback)) thumb.src = fallback;
+    });
+  });
 
   $$(".gallery-item").forEach((figure) => {
     figure.addEventListener("click", () => openLightbox(figure));
